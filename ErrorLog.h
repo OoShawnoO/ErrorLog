@@ -8,7 +8,7 @@
 namespace hzd {
 #ifdef _WIN32
 
-#include <windows.h>
+    #include <windows.h>
     #include <cstdint>
     #include <cstdlib>
 
@@ -58,23 +58,23 @@ namespace hzd {
 
 #ifdef __unix__
 
-#define RESET       "\033[0m"
-#define BLACK       "\033[30m"             /* Black */
-#define RED         "\033[31m"             /* Red */
-#define GREEN       "\033[32m"             /* Green */
-#define YELLOW      "\033[33m"             /* Yellow */
-#define BLUE        "\033[34m"             /* Blue */
-#define MAGENTA     "\033[35m"             /* Magenta */
-#define CYAN        "\033[36m"             /* Cyan */
-#define WHITE       "\033[37m"             /* White */
-#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
-#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
-#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
-#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
-#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
-#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
-#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+    #define RESET       "\033[0m"
+    #define BLACK       "\033[30m"             /* Black */
+    #define RED         "\033[31m"             /* Red */
+    #define GREEN       "\033[32m"             /* Green */
+    #define YELLOW      "\033[33m"             /* Yellow */
+    #define BLUE        "\033[34m"             /* Blue */
+    #define MAGENTA     "\033[35m"             /* Magenta */
+    #define CYAN        "\033[36m"             /* Cyan */
+    #define WHITE       "\033[37m"             /* White */
+    #define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
+    #define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
+    #define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+    #define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
+    #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+    #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+    #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
+    #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 #endif
 
@@ -107,7 +107,7 @@ namespace hzd {
 
     #define LOG_MSG(msg) do {           \
         GET_LOGGER();                   \
-        string logmsg = hzd::getTime() + "[INFO]:Line:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
+        string logmsg = hzd::getTime() + "[INFO]:File:" + __FILE__ + "\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
         logger << logmsg;               \
     }while(0)
 
@@ -116,7 +116,7 @@ namespace hzd {
         FORMAT_ARGS(format,__VA_ARGS__);        \
         GET_LOGGER();                           \
         logger[error];                          \
-        string logmsg = hzd::getTime() + "[ERROR]:" + logger.errorMsg[error] + "\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg) + "\tArgs={" + __str + "}";                     \
+        string logmsg = hzd::getTime() + "[ERROR]:" + logger.errorMsg[error] + "\tFile:"+__FILE__+"\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg) + "\tArgs={" + __str + "}";                     \
         logger << logmsg;             \
     }while(0)
 
@@ -148,9 +148,9 @@ namespace hzd {
         std::unordered_map<Error,std::string> errorMsg
                 {
                         {None,"* No Error *"},
-                        {Out_Of_Bound,"* Out of Bound *"},
-                        {Pointer_To_Null,"* Pointer to null *"},
-                        {Bad_Malloc,"* Bad Malloc *"},
+                        {Out_Of_Bound,"* 越界 *"},
+                        {Pointer_To_Null,"* 操作空指针 *"},
+                        {Bad_Malloc,"* 分配错误 *"},
                 };
         static ErrorLog& getLogger()
         {

@@ -1,8 +1,1 @@
-[2023-01-05 23:37:40][INFO]:Line:14	Function:test	Msg:9
-[2023-01-05 23:37:41][INFO]:Line:14	Function:test	Msg:2
-[2023-01-05 23:37:42][INFO]:Line:14	Function:test	Msg:4
-[2023-01-05 23:37:43][INFO]:Line:14	Function:test	Msg:5
-[2023-01-05 23:37:44][INFO]:Line:14	Function:test	Msg:1
-[2023-01-05 23:37:44][ERROR]:* Out of Bound *	Line:11	Function:test	Msg:数组越界	Args={list = 48fffd60,size = 5,x = 5}
-[2023-01-05 23:37:45][INFO]:Line:14	Function:test	Msg:32759
-[2023-01-05 23:37:45][ERROR]:* Pointer to null *	Line:19	Function:test	Msg:操作空指针	Args={y=0}
+[2023-01-06 00:02:03][ERROR]:* 越界 *	File:C:/Code/C++/ErrorLog/ErrorLog.cpp	Line:10	Function:test	Msg:	Args={list=91dffac0,size=2}
