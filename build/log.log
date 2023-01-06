@@ -1,2 +1,0 @@
-[2023-01-06 13:07:32][ERROR]:* 越界 *	File:/home/huzhida/C++/ErrorLog/ErrorLog.cpp	Line:10	Function:test	Msg:	Args={list=e76bc440,size=2}
-[2023-01-06 13:07:32][INFO]:File:/home/huzhida/C++/ErrorLog/ErrorLog.cpp	Line:11	Function:test	Msg:test msg

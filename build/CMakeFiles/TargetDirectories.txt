@@ -1,3 +1,0 @@
-/home/huzhida/C++/ErrorLog/build/CMakeFiles/ErrorLog.dir
-/home/huzhida/C++/ErrorLog/build/CMakeFiles/edit_cache.dir
-/home/huzhida/C++/ErrorLog/build/CMakeFiles/rebuild_cache.dir

@@ -1,11 +1,15 @@
 #ifndef ERRORLOG_ERRORLOG_H
 #define ERRORLOG_ERRORLOG_H
 
+#ifdef ERRORLOG
 #include <iostream>
 #include <fstream>
 #include <ctime>
 #include <unordered_map>
+#endif
+
 namespace hzd {
+#ifdef ERRORLOG
 #ifdef _WIN32
 
     #include <windows.h>
@@ -236,6 +240,11 @@ namespace hzd {
 
     ErrorLog* ErrorLog::logger = nullptr;
     ErrorLog::Watcher ErrorLog::watcher;
+
+#else
+#define LOG(error,msg,fmt,...)
+#define LOG_MSG(msg)
+#endif
 }
 
 
