@@ -8,6 +8,7 @@ void test(int* list,int size)
         LOG_MSG("test finish");
     else
         LOG(hzd::Out_Of_Bound,"","list=%x,size=%d",list,size);
+    LOG_MSG("test msg");
 }
 
 int main() {

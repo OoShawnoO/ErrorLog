@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/ErrorLog.dir/ErrorLog.cpp.o -o ErrorLog 

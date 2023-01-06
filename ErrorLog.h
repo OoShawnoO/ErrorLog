@@ -76,6 +76,61 @@ namespace hzd {
     #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
     #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+    enum ConsoleForegroundColor
+    {
+        CFC_RESET = 0,
+        CFC_Black,
+        CFC_Red,
+        CFC_Green,
+        CFC_Yellow,
+        CFC_Blue,
+        CFC_Magenta,
+        CFC_Cyan,
+        CFC_White,
+    };
+
+    std::string getColor(ConsoleForegroundColor color)
+    {
+        switch (color)
+        {
+            case CFC_RESET : {
+                return RESET;
+            }
+            case CFC_Black : {
+                return BOLDBLACK;
+            }
+            case CFC_Red : {
+                return BOLDRED;
+            }
+            case CFC_Green : {
+                return BOLDGREEN;
+            }
+            case CFC_Yellow : {
+                return BOLDYELLOW;
+            }
+            case CFC_Blue : {
+                return BOLDBLUE;
+            }
+            case CFC_Magenta : {
+                return BOLDMAGENTA;
+            }
+            case CFC_Cyan : {
+                return BOLDCYAN;
+            }
+            case CFC_White : {
+                return BOLDWHITE;
+            }
+            default : {
+                return RESET;
+            }
+        }
+    }
+
+    //调用函数
+    void ShowMessage(std::string msg,ConsoleForegroundColor foreColor = CFC_White) {
+        std::cout << getColor(foreColor) << msg << getColor(CFC_RESET) << std::endl;
+    }
+
 #endif
 
     enum Error {
