@@ -8,7 +8,7 @@
 * @params:
 * msg  - string
 */
-LOG("信息");
+LOG_MSG("信息");
 
 /**
 * LOG()
