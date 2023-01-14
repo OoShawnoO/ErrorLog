@@ -1,6 +1,11 @@
 #ifndef ERRORLOG_ERRORLOG_H
 #define ERRORLOG_ERRORLOG_H
 
+/*
+ * 使用LOG,LOG_MSG宏需要在本头文件前define ERRORLOG
+ * 需要保存日志需要在本头文件前define LOG_FILE
+ * */
+
 #ifdef ERRORLOG
 #include <iostream>
 #include <fstream>
@@ -166,7 +171,7 @@ namespace hzd {
 
     #define LOG_MSG(msg) do {           \
         GET_LOGGER();                   \
-        string logmsg = hzd::getTime() + "[INFO]:File:" + __FILE__ + "\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
+        std::string logmsg = hzd::getTime() + "[INFO]:File:" + __FILE__ + "\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
         logger << logmsg;               \
     }while(0)
 
@@ -175,7 +180,7 @@ namespace hzd {
         FORMAT_ARGS(format,__VA_ARGS__);        \
         GET_LOGGER();                           \
         logger[error];                          \
-        string logmsg = hzd::getTime() + "[ERROR]:" + logger.errorMsg[error] + "\tFile:"+__FILE__+"\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg) + "\tArgs={" + __str + "}";                     \
+        std::string logmsg = hzd::getTime() + "[ERROR]:" + logger.errorMsg[error] + "\tFile:"+__FILE__+"\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg) + "\tArgs={" + __str + "}";                     \
         logger << logmsg;             \
     }while(0)
 
@@ -194,12 +199,16 @@ namespace hzd {
 
         static ErrorLog* logger;
         static Watcher watcher;
+        #ifdef LOG_FILE
         std::ofstream out;
+        #endif
         Error error;
 
         ErrorLog()
         {
+            #ifdef LOG_FILE
             out.open("log.log",std::ios::out);
+            #endif
             error = None;
         }
 
@@ -223,7 +232,9 @@ namespace hzd {
         void operator <<(const std::string msg)
         {
             ShowMessage(msg,error == None ? CFC_Cyan : CFC_Red);
+            #ifdef LOG_FILE
             out << msg << std::endl;
+            #endif
             error = None;
         }
 
@@ -234,7 +245,9 @@ namespace hzd {
 
         ~ErrorLog()
         {
+            #ifdef LOG_FILE
             out.close();
+            #endif
         }
     };
 
