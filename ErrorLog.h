@@ -14,7 +14,7 @@
 #include <fstream>
 #include <ctime>
 #include <unordered_map>
-
+#include <mutex>
 
 namespace hzd {
 #ifdef _WIN32
@@ -241,6 +241,7 @@ namespace hzd {
 
         static ErrorLog* logger;
         static Watcher watcher;
+        static std::mutex mtx;
         #ifndef NO_LOG_FILE
         std::ofstream out;
         #endif
@@ -273,11 +274,13 @@ namespace hzd {
 
         void operator <<(const std::string msg)
         {
+            mtx.lock();
             ShowMessage(msg,error == None ? CFC_Cyan : CFC_Red);
             #ifndef NO_LOG_FILE
             out << msg << std::endl;
             #endif
             error = None;
+            mtx.unlock();
         }
 
         void operator[](Error error_)
@@ -295,7 +298,8 @@ namespace hzd {
 
     ErrorLog* ErrorLog::logger = nullptr;
     ErrorLog::Watcher ErrorLog::watcher;
-    using hzd::Error;
+    std::mutex ErrorLog::mtx;
+    using Error = hzd::Error;
 }
 #else
 
