@@ -3,8 +3,8 @@
 
 #ifndef NO_ERRORLOG
 /*
- * ä¸ä½¿ç”¨LOG,LOG_MSGå®éœ€è¦åœ¨æœ¬å¤´æ–‡ä»¶å‰define NO_ERRORLOG
- * ä¸éœ€è¦ä¿å­˜æ—¥å¿—éœ€è¦åœ¨æœ¬å¤´æ–‡ä»¶å‰define NO_LOG_FILE
+ * ²»Ê¹ÓÃLOG,LOG_MSGºêĞèÒªÔÚ±¾Í·ÎÄ¼şÇ°define NO_ERRORLOG
+ * ²»ĞèÒª±£´æÈÕÖ¾ĞèÒªÔÚ±¾Í·ÎÄ¼şÇ°define NO_LOG_FILE
  * */
 
 #define LOG_FILE_NAME "log.log"
@@ -23,7 +23,7 @@ namespace hzd {
     #include <cstdint>
     #include <cstdlib>
 
-    //   æ§åˆ¶å°å‰æ™¯é¢œè‰²
+    //   ¿ØÖÆÌ¨Ç°¾°ÑÕÉ«
     enum ConsoleForegroundColor {
         CFC_Red = FOREGROUND_RED,
         CFC_RedI = FOREGROUND_INTENSITY | FOREGROUND_RED,
@@ -38,7 +38,7 @@ namespace hzd {
         CFC_Black = 0,
     };
 
-    // èƒŒæ™¯è‰²æšä¸¾å€¼
+    // ±³¾°É«Ã¶¾ÙÖµ
     enum ConsoleBackGroundColor {
         CBC_Red = BACKGROUND_INTENSITY | BACKGROUND_RED,
         CBC_Green = BACKGROUND_INTENSITY | BACKGROUND_GREEN,
@@ -51,13 +51,13 @@ namespace hzd {
         CBC_Black = 0,
     };
 
-    // è®¾ç½®é¢œè‰²å‡½æ•°
+    // ÉèÖÃÑÕÉ«º¯Êı
     void SetConsoleColor(ConsoleForegroundColor foreColor = CFC_White, ConsoleBackGroundColor backColor = CBC_Black) {
         HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(handle, foreColor | backColor);
     }
 
-    //è°ƒç”¨å‡½æ•°
+    //µ÷ÓÃº¯Êı
     void ShowMessage(std::string msg, ConsoleForegroundColor foreColor = CFC_White,
                      ConsoleBackGroundColor backColor = CBC_Black) {
         SetConsoleColor(foreColor, backColor);
@@ -137,7 +137,7 @@ namespace hzd {
         }
     }
 
-    //è°ƒç”¨å‡½æ•°
+    //µ÷ÓÃº¯Êı
     void ShowMessage(std::string msg,ConsoleForegroundColor foreColor = CFC_White) {
         std::cout << getColor(foreColor) << msg << getColor(CFC_RESET) << std::endl;
     }
@@ -171,13 +171,53 @@ namespace hzd {
         }                                                                \
     }while(0)
 
+    /**
+     * @brief log msg
+     * @note log msg
+     * @param msg std::string
+     * @retval None
+     */
+
     #define LOG_MSG(msg) do {           \
         GET_LOGGER();                   \
         std::string logmsg = hzd::getTime() + "[INFO]:File:" + __FILE__ + "\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
         logger << logmsg;               \
     }while(0)
 
-    #define LOG(error,msg,format,...) do{ \
+    /**
+     * @brief log error with msg
+     * @note log error with msg
+     * @param error hzd::enum Error {
+        None,
+        Out_Of_Bound,
+        Pointer_To_Null,
+        Bad_Malloc
+        }
+       @param msg std::string
+     * @retval None
+     */
+    #define LOG(error,msg) do { \
+        GET_LOGGER();           \
+        logger[error];            \
+        std::string logmsg = hzd::getTime() + "[ERROR]:" + logger.errorMsg[error] + "\tFile:"+__FILE__+"\tLine:" + std::to_string(__LINE__) + "\t" + "Function:" + __FUNCTION__ + "\tMsg:" + (msg);                     \
+        logger << logmsg;                            \
+    }while(0)
+
+    /**
+     * @brief log with error and format
+     * @note log with error and format
+     * @param error hzd::enum Error {
+        None,
+        Out_Of_Bound,
+        Pointer_To_Null,
+        Bad_Malloc,
+        }
+     * @param msg std::string
+     * @param format std::string
+     * @param ... args
+     * @retval None
+     */
+    #define LOG_FMT(error,msg,format,...) do{   \
         std::string __str;                      \
         FORMAT_ARGS(format,__VA_ARGS__);        \
         GET_LOGGER();                           \
@@ -218,9 +258,9 @@ namespace hzd {
         std::unordered_map<Error,std::string> errorMsg
                 {
                         {None,"* No Error *"},
-                        {Out_Of_Bound,"* è¶Šç•Œ *"},
-                        {Pointer_To_Null,"* æ“ä½œç©ºæŒ‡é’ˆ *"},
-                        {Bad_Malloc,"* åˆ†é…é”™è¯¯ *"},
+                        {Out_Of_Bound,"* Ô½½ç *"},
+                        {Pointer_To_Null,"* ²Ù×÷¿ÕÖ¸Õë *"},
+                        {Bad_Malloc,"* ·ÖÅä´íÎó *"},
                 };
         static ErrorLog& getLogger()
         {
@@ -255,6 +295,7 @@ namespace hzd {
 
     ErrorLog* ErrorLog::logger = nullptr;
     ErrorLog::Watcher ErrorLog::watcher;
+    using hzd::Error;
 }
 #else
 
