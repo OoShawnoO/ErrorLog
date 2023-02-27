@@ -3,7 +3,7 @@
 
 #ifndef NO_ERRORLOG
 /*
- * 使用LOG,LOG_MSG宏需要在本头文件前define ERRORLOG
+ * 不使用LOG,LOG_MSG宏需要在本头文件前define NO_ERRORLOG
  * 不需要保存日志需要在本头文件前define NO_LOG_FILE
  * */
 
