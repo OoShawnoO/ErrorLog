@@ -1,20 +1,22 @@
 #ifndef ERRORLOG_ERRORLOG_H
 #define ERRORLOG_ERRORLOG_H
 
+#ifndef NO_ERRORLOG
 /*
  * 使用LOG,LOG_MSG宏需要在本头文件前define ERRORLOG
- * 需要保存日志需要在本头文件前define LOG_FILE
+ * 不需要保存日志需要在本头文件前define NO_LOG_FILE
  * */
 
-#ifdef ERRORLOG
+#define LOG_FILE_NAME "log.log"
+
+
 #include <iostream>
 #include <fstream>
 #include <ctime>
 #include <unordered_map>
-#endif
+
 
 namespace hzd {
-#ifdef ERRORLOG
 #ifdef _WIN32
 
     #include <windows.h>
@@ -199,15 +201,15 @@ namespace hzd {
 
         static ErrorLog* logger;
         static Watcher watcher;
-        #ifdef LOG_FILE
+        #ifndef NO_LOG_FILE
         std::ofstream out;
         #endif
         Error error;
 
         ErrorLog()
         {
-            #ifdef LOG_FILE
-            out.open("log.log",std::ios::out);
+            #ifndef NO_LOG_FILE
+            out.open(LOG_FILE_NAME,std::ios::app);
             #endif
             error = None;
         }
@@ -232,7 +234,7 @@ namespace hzd {
         void operator <<(const std::string msg)
         {
             ShowMessage(msg,error == None ? CFC_Cyan : CFC_Red);
-            #ifdef LOG_FILE
+            #ifndef NO_LOG_FILE
             out << msg << std::endl;
             #endif
             error = None;
@@ -245,7 +247,7 @@ namespace hzd {
 
         ~ErrorLog()
         {
-            #ifdef LOG_FILE
+            #ifndef NO_LOG_FILE
             out.close();
             #endif
         }
@@ -253,13 +255,12 @@ namespace hzd {
 
     ErrorLog* ErrorLog::logger = nullptr;
     ErrorLog::Watcher ErrorLog::watcher;
-
-#else
-#define LOG(error,msg,fmt,...)
-#define LOG_MSG(msg)
-#endif
 }
+#else
 
+#define LOG_MSG(msg) {}
+#define LOG(error,msg,format,...) {}
 
+#endif
 
 #endif //ERRORLOG_ERRORLOG_H
