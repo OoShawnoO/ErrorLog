@@ -265,6 +265,7 @@ namespace hzd {
                 };
         static ErrorLog& getLogger()
         {
+            std::lock_guard<std::mutex> guard(mtx);
             if(!logger)
             {
                 logger = new ErrorLog;
@@ -274,13 +275,12 @@ namespace hzd {
 
         void operator <<(const std::string msg)
         {
-            mtx.lock();
+            std::lock_guard<std::mutex> guard(mtx);
             ShowMessage(msg,error == None ? CFC_Cyan : CFC_Red);
             #ifndef NO_LOG_FILE
             out << msg << std::endl;
             #endif
             error = None;
-            mtx.unlock();
         }
 
         void operator[](Error error_)
